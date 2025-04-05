@@ -411,7 +411,7 @@ body.theme5::before {
 
 /* Стили для секции портфолио */
 .portfolio-container {
-    margin-top: 60px;
+    margin-top: 40px;
     width: 100%;
     max-width: 1200px;
     padding: 0 20px;
@@ -519,6 +519,21 @@ body.theme5::before {
         margin: 5px;
         padding: 10px 15px;
     }
+    
+    .pricing-items {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .pricing-item {
+        min-width: 100%;
+        max-width: 100%;
+        margin-bottom: 0;
+    }
+    
+    .pricing-container {
+        margin-top: 20px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -603,6 +618,32 @@ body.theme5::before {
     .portfolio-container {
         margin-top: 30px;
         padding: 0 10px;
+    }
+    
+    .pricing-item-price {
+        font-size: 24px;
+    }
+    
+    .pricing-item-title {
+        font-size: 16px;
+    }
+    
+    .pricing-item {
+        padding: 12px;
+    }
+    
+    .pricing-item-description {
+        font-size: 13px;
+        margin-top: 8px;
+        padding: 0 5px;
+    }
+    
+    .pricing-container {
+        margin-top: 15px;
+    }
+    
+    .pricing-items {
+        gap: 10px;
     }
 }
 
@@ -834,5 +875,151 @@ body.en .lang-ru {
     to {
         transform: scale(2);
         opacity: 0;
+    }
+}
+
+/* Стили для секции с ценами */
+.pricing-container {
+    margin-top: 25px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+}
+
+.pricing-title {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 25px;
+    text-align: center;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.pricing-items {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+    max-width: 100%;
+}
+
+.pricing-item {
+    flex: 1;
+    min-width: calc(50% - 20px);
+    max-width: calc(50% - 10px);
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-radius: 15px;
+    padding: 15px;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-item::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0) 50%,
+        rgba(255, 255, 255, 0.15) 100%
+    );
+    z-index: -1;
+    border-radius: 17px;
+    opacity: 0.5;
+    transition: all 0.4s ease;
+}
+
+.pricing-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.pricing-item:hover .pricing-item-price {
+    transform: scale(1.05);
+}
+
+.pricing-item-title {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+.pricing-item-price {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #fff;
+    background: linear-gradient(90deg, #64d8ff, #64a5ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: transform 0.3s ease;
+}
+
+.pricing-item-timeframe {
+    font-size: 14px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.pricing-item-description {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.8);
+    margin-top: 12px;
+    padding: 0 8px;
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .pricing-items {
+        flex-direction: column;
+    }
+    
+    .pricing-item {
+        min-width: 100%;
+        max-width: 100%;
+        margin-bottom: 15px;
+    }
+    
+    .pricing-title {
+        font-size: 22px;
+    }
+}
+
+@media (max-width: 480px) {
+    .pricing-item-price {
+        font-size: 24px;
+    }
+    
+    .pricing-item-title {
+        font-size: 16px;
+    }
+    
+    .pricing-item {
+        padding: 15px;
+    }
+    
+    .pricing-item-description {
+        font-size: 13px;
+        margin-top: 8px;
+        padding: 0 5px;
     }
 } 
