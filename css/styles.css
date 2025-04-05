@@ -1,0 +1,838 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    color: #fff;
+    position: relative;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-top: 10vh;
+}
+
+/* Themes */
+body.theme1 {
+    background: linear-gradient(135deg, #140b0b 0%, #1f1212 50%, #2b1a1a 100%);
+    background-size: 150% 150%;
+    overflow: auto;
+}
+
+body.theme2 {
+    background: #0a0f14;
+    position: relative;
+    overflow: auto;
+}
+
+body.theme2::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(to bottom, rgba(50, 205, 50, 0.06) 0%, rgba(50, 205, 50, 0.03) 2px, transparent 2px, transparent 10px);
+    animation: codeRain 15s infinite linear;
+    z-index: -1;
+}
+
+body.theme2::after {
+    content: '101010 0xFF function processData(x) { return x * 2; } 0101 var user = { name: "John", id: 42 }; while(true) { console.log("loop"); } if(x > 0) { alert("positive"); } const PI = 3.14159; let arr = [1, 2, 3]; for(let i = 0; i < 10; i++) { arr.push(i); } 0011 class Code { constructor() { this.value = "dark"; } } async function fetchData() { await new Promise(r => setTimeout(r, 1000)); }';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: rgba(255, 255, 255, 0.03);
+    font-family: monospace;
+    font-size: 12px;
+    white-space: pre-wrap;
+    animation: codeFlow 20s infinite linear;
+    z-index: -1;
+}
+
+body.theme5 {
+    background: #0f0f1a;
+    position: relative;
+    overflow: auto;
+}
+
+body.theme5::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at center, rgba(50, 50, 80, 0.2) 0%, transparent 70%);
+    z-index: -1;
+}
+
+.grid-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    text-align: center;
+    padding: 40px;
+    max-width: 800px;
+    width: 100%;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+    position: relative;
+    z-index: 1;
+    margin-top: 0;
+    margin-bottom: 20px;
+}
+
+.projects-container {
+    margin-top: 60px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
+.projects-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 30px;
+    padding-bottom: 60px;
+}
+
+.project-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-radius: 20px;
+    padding: 30px;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+    transform-style: preserve-3d;
+    perspective: 1000px;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    transform: perspective(1000px) rotateX(0) rotateY(0);
+    will-change: transform;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(
+        135deg,
+        rgba(255, 255, 255, 0.15) 0%,
+        rgba(255, 255, 255, 0) 50%,
+        rgba(255, 255, 255, 0.15) 100%
+    );
+    z-index: -1;
+    border-radius: 22px;
+    opacity: 0.5;
+    transition: all 0.4s ease;
+}
+
+.project-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(125deg, 
+        rgba(255, 255, 255, 0) 0%,
+        rgba(255, 255, 255, 0.05) 20%, 
+        rgba(255, 255, 255, 0.1) 40%, 
+        rgba(255, 255, 255, 0.05) 60%, 
+        rgba(255, 255, 255, 0) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    pointer-events: none;
+    border-radius: 20px;
+}
+
+.project-card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.project-card:hover::after {
+    opacity: 1;
+    animation: shine 2s infinite;
+}
+
+.project-card:active {
+    transform: translateY(-4px) scale(0.99);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: all 0.2s ease;
+}
+
+@keyframes shine {
+    0% {
+        background-position: -100% 0;
+    }
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* 3D Card Effect */
+.card-3d-container {
+    perspective: 1500px;
+    transform-style: preserve-3d;
+}
+
+.project-content, .project-icon, .project-footer {
+    position: relative;
+    z-index: 2;
+}
+
+.project-icon {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: rgba(30, 30, 50, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+    font-size: 36px;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2), 
+                inset 0 2px 5px rgba(255, 255, 255, 0.1);
+    position: relative;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    overflow: hidden;
+}
+
+.project-icon::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(circle at 50% 50%, 
+                rgba(255, 255, 255, 0.15), 
+                rgba(255, 255, 255, 0) 70%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.project-card:hover .project-icon::after {
+    opacity: 1;
+}
+
+.project-icon i {
+    color: #ffffff;
+    filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.5));
+    font-size: 36px;
+    display: block;
+}
+
+.project-icon i.fa-code {
+    color: #f7df1e;
+    filter: drop-shadow(0 0 8px rgba(247, 223, 30, 0.7));
+}
+
+.project-icon i.fa-server {
+    color: #64d8cb;
+    filter: drop-shadow(0 0 8px rgba(100, 216, 203, 0.7));
+}
+
+.project-icon i.fa-mobile-alt {
+    color: #ff6b6b;
+    filter: drop-shadow(0 0 8px rgba(255, 107, 107, 0.7));
+}
+
+.project-icon i.fa-ghost {
+    color: #9d4edd;
+    filter: drop-shadow(0 0 8px rgba(157, 78, 221, 0.7));
+}
+
+.project-icon i.fa-stopwatch {
+    color: #ff5e5b;
+    filter: drop-shadow(0 0 8px rgba(255, 94, 91, 0.7));
+}
+
+.project-icon i.fa-flag {
+    color: #4cc9f0;
+    filter: drop-shadow(0 0 8px rgba(76, 201, 240, 0.7));
+}
+
+.project-card:hover .project-icon {
+    transform: scale(1.08);
+    transition: transform 0.4s ease-out;
+}
+
+.project-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.project-card:hover .project-icon img {
+    transform: scale(1.1);
+}
+
+.project-title {
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+    background: linear-gradient(90deg, #ffffff, #aaaaaa);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.15));
+    transform: translateZ(5px);
+}
+
+.project-description {
+    font-size: 16px;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 20px;
+    transform: translateZ(2px);
+}
+
+.project-content {
+    flex: 1;
+    transform: translateZ(10px);
+}
+
+.project-footer {
+    margin-top: auto;
+    transform: translateZ(15px);
+}
+
+.project-link, .telegram-btn, .github-btn {
+    display: inline-block;
+    padding: 12px 24px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    text-decoration: none;
+    border-radius: 30px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    margin: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+    overflow: hidden;
+}
+
+.telegram-btn, .github-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 180px;
+    position: relative;
+}
+
+/* Telegram button specific styles */
+.telegram-btn {
+    background: rgba(0, 136, 204, 0.55);
+    border-color: rgba(0, 160, 220, 0.5);
+    padding: 14px 32px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.project-link:hover {
+    background: rgba(80, 80, 120, 0.6);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.telegram-btn::before {
+    background: linear-gradient(90deg, transparent, rgba(150, 230, 255, 0.4), transparent);
+}
+
+.telegram-btn:hover {
+    background: rgba(0, 150, 215, 0.65);
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+}
+
+.project-link:active, .telegram-btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+    transition: all 0.1s ease;
+}
+
+/* Добавляем стили для описания разработчика */
+.developer-bio {
+    margin-top: 25px;
+    font-size: 16px;
+    line-height: 1.6;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 15px;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Стили для секции портфолио */
+.portfolio-container {
+    margin-top: 60px;
+    width: 100%;
+    max-width: 1200px;
+    padding: 0 20px;
+    margin-bottom: 60px;
+}
+
+.portfolio-title {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.4));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+    gap: 30px;
+    padding-bottom: 60px;
+}
+
+.portfolio-item {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px) saturate(180%);
+    -webkit-backdrop-filter: blur(12px) saturate(180%);
+    border-radius: 20px;
+    padding: 20px;
+    transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.portfolio-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.portfolio-item-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 15px;
+    color: #fff;
+    text-align: center;
+}
+
+.portfolio-video {
+    width: 100%;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+    max-height: 300px;
+    object-fit: contain;
+    background-color: rgba(0, 0, 0, 0.2);
+}
+
+/* Стили для кнопки GitHub */
+.github-btn {
+    background: rgba(33, 38, 45, 0.8);
+}
+
+.github-btn:hover {
+    background: rgba(33, 38, 45, 1);
+    transform: translateY(-3px);
+    box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .projects-title {
+        font-size: 28px;
+    }
+    
+    .project-card {
+        padding: 20px;
+    }
+    
+    .portfolio-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .portfolio-title {
+        font-size: 30px;
+    }
+    
+    .portfolio-item {
+        padding: 15px;
+    }
+    
+    .developer-bio {
+        font-size: 14px;
+        padding: 15px;
+    }
+    
+    .telegram-btn, .github-btn {
+        width: 150px;
+        margin: 5px;
+        padding: 10px 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 5vh;
+    }
+    
+    .container {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+    
+    .studio-name { 
+        font-size: 42px;
+    }
+    
+    .description { 
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+    
+    .telegram-btn { 
+        padding: 10px 20px; 
+        font-size: 13px;
+    }
+    
+    .project-card {
+        padding: 20px 15px;
+    }
+    
+    .project-icon {
+        width: 60px;
+        height: 60px;
+        margin-bottom: 15px;
+    }
+    
+    .project-icon i {
+        font-size: 28px;
+    }
+    
+    .project-title {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    .project-description {
+        font-size: 14px;
+        margin-bottom: 20px;
+    }
+    
+    .project-link {
+        padding: 8px 20px;
+        font-size: 13px;
+    }
+    
+    .projects-container {
+        margin-top: 40px;
+    }
+    
+    .developer-bio {
+        font-size: 13px;
+        padding: 12px;
+        margin-top: 15px;
+    }
+    
+    .portfolio-title {
+        font-size: 24px;
+    }
+    
+    .portfolio-item-title {
+        font-size: 18px;
+    }
+    
+    .portfolio-video {
+        max-height: 200px;
+    }
+    
+    .portfolio-grid {
+        gap: 15px;
+    }
+    
+    .portfolio-container {
+        margin-top: 30px;
+        padding: 0 10px;
+    }
+}
+
+/* Для экстремально маленьких экранов */
+@media (max-width: 350px) {
+    .studio-name {
+        font-size: 36px;
+    }
+    
+    .description {
+        font-size: 14px;
+        margin-bottom: 25px;
+    }
+    
+    .project-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .project-icon i {
+        font-size: 24px;
+    }
+    
+    .project-title {
+        font-size: 16px;
+    }
+    
+    .project-description {
+        font-size: 13px;
+    }
+    
+    .project-link, .telegram-btn {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
+}
+
+/* Улучшение для планшетов и средних экранов */
+@media (min-width: 481px) and (max-width: 768px) {
+    .projects-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+    
+    .project-card {
+        padding: 25px;
+    }
+    
+    .project-icon {
+        width: 70px;
+        height: 70px;
+    }
+    
+    .project-icon i {
+        font-size: 32px;
+    }
+}
+
+/* Фиксим поведение карточек при наведении на сенсорных устройствах */
+@media (hover: none) {
+    .project-card:hover {
+        transform: translateY(0) rotateX(0) rotateY(0) scale(1);
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    }
+    
+    .project-icon:hover {
+        transform: scale(1);
+    }
+    
+    /* Активное состояние для тачскринов */
+    .project-card:active {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* Стили для переключателя языков */
+.language-switcher {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 100;
+}
+
+.lang-btn {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: white;
+    font-weight: bold;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.lang-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.lang-btn:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.25);
+}
+
+/* Стили для текстовых элементов на разных языках */
+.lang-en {
+    display: none; /* По умолчанию скрываем английский */
+}
+
+body.en .lang-en {
+    display: inline-block; /* Показываем английский когда активен */
+}
+
+body.en .lang-ru {
+    display: none; /* Скрываем русский когда активен английский */
+}
+
+/* На русскоязычном сайте показываем русский текст */
+.lang-ru {
+    display: inline-block;
+}
+
+@media (max-width: 480px) {
+    .language-switcher {
+        top: 10px;
+        right: 10px;
+    }
+    
+    .lang-btn {
+        width: 40px;
+        height: 40px;
+        font-size: 14px;
+    }
+}
+
+/* Add JS support for 3D card effect */
+@media (hover: hover) {
+    .tilt-effect {
+        transition: transform 0.1s ease;
+        transform-style: preserve-3d;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes codeRain {
+    0% { background-position: 0 0; }
+    100% { background-position: 0 100px; }
+}
+
+@keyframes codeFlow {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+}
+
+.studio-name {
+    font-size: 64px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 1.2px;
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
+    background: linear-gradient(90deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.2));
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gloss 2s infinite ease-in-out;
+    transition: transform 0.3s ease;
+    text-align: center;
+    width: 100%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@keyframes gloss {
+    0% { background-position: 100%; }
+    50% { background-position: 0%; }
+    100% { background-position: -100%; }
+}
+
+.studio-name:hover {
+    transform: scale(1.02);
+    animation-play-state: paused;
+}
+
+.description {
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.6;
+    color: #fff;
+    margin-bottom: 20px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    animation-delay: 0.4s;
+}
+
+.buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+/* Ripple effect */
+.ripple-effect {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+} 
