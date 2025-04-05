@@ -279,6 +279,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Автоматическое определение языка
     function detectUserLanguage() {
+        // Всегда возвращаем английский язык по умолчанию
+        return 'en';
+        
+        // Закомментированный код автоопределения (на случай если понадобится вернуть)
+        /*
         // Получаем язык браузера пользователя
         const userLang = navigator.language || navigator.userLanguage;
         const userLangLower = userLang.toLowerCase();
@@ -292,6 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             return 'en';
         }
+        */
     }
     
     // Устанавливаем язык при загрузке страницы
